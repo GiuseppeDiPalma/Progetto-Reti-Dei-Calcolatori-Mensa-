@@ -23,10 +23,10 @@ client/server.
 ![alt tag](http://imageshack.com/a/img924/5885/0uO5lj.png)
 
 
-## Descrizione e schemi del protocollo applicazione
->"Conversazione" tra CLIENT||SERVER_CENTRALE||SEDE_SCELTA
+# Descrizione e schemi del protocollo applicazione
+"Conversazione" tra CLIENT||SERVER_CENTRALE||SEDE_SCELTA
 ![alt tag](http://imageshack.com/a/img924/8306/YwsJWP.png)
 
->"Conversazione" tra ADMIN||SERVER_CENTRALE"
+"Conversazione" tra ADMIN||SERVER_CENTRALE"
 ![alt tag](http://imageshack.com/a/img924/1688/nWWg0v.png)
 
