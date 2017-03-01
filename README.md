@@ -112,10 +112,19 @@ La compilazione viene effettuata da terminale, con l'apertura in simultanea di a
 nell'ordine di Server Centrale, Sede, Client (eventualmente tutte le sede richieste, eventualmente 
 l'admin se occorre). 
 I comandi sono:
+
 bash serverC.sh
+
 bash centrodirezionale.sh
+
 bash client.sh
+
 Eventualmente:
+
 bash saporicampani.sh
+
+
 bash viaacton.sh
+
 bash admin.sh
+##
