@@ -1,6 +1,7 @@
 # Progetto-Reti-Dei-Calcolatori-Mensa-
 
-Descrizione del progetto
+# Descrizione del progetto
+
 Si vuole realizzare una piattaforma per la gestione degli ordini di una mensa universitaria.
 Il sistema si compone delle seguenti entità: ServerC, ServerS, Client, Admin. Il client
 rappresenta un’interfaccia per l’utente attraverso cui è possibile inviare un ordine. Il client
@@ -11,8 +12,12 @@ quando l’ordine è pronto. L’utente ritira l’ordine fornendo l’ID ed il 
 l’ordine. Attraverso l’admin è possibile aggiornare il menu memorizzato nel ServerC. Il
 ServerC deve consentire la gestione di più ordini contemporaneamente.
 
-Descrizione e schemi dell’architettura
+
+# Descrizione e schemi dell’architettura
 Il progetto è implementato per funzionare su piattaforma Unix/Linux secondo lo standard
 Posix. L'intercomunicazione tra i processi avviene tramite Socket di Berkeley. Il protocollo
 scelto è TCP, più affidabile grazie al canale di comunicazione che si crea tra i processi
 client/server.
+
+
+![alt tag](http://imageshack.com/a/img924/5885/0uO5lj.png)
