@@ -27,7 +27,7 @@ client/server.
 Conversazione tra CLIENT||SERVER_CENTRALE||SEDE_SCELTA
 ![alt tag](http://imageshack.com/a/img924/8306/YwsJWP.png)
 #
-Conversazione tra ADMIN||SERVER_CENTRALE"
+Conversazione tra ADMIN||SERVER_CENTRALE
 ![alt tag](http://imageshack.com/a/img924/1688/nWWg0v.png)
 
 ## Dettagli in particolare
@@ -62,3 +62,60 @@ L’Admin si connette al ServerC e mediante una scelta, può scegliere di inseri
 nuovo menu, questo nuovo menu verrà inviato al serverC e dunque aggiornato, portando all'eliminazione
 del precedente menu.
 
+# Dettagli implementativi
+# Server Centrale
+Il codice del ServerC inizia con la creazione della Socket per la connessione con il Client
+(o Admin). Entro nel While infinito e accetto la connessione da parte del Client.
+Eseguo una fork per consentire la concorrenza del server.
+Nel figlio la prima Write legge Root mandato da Client per capire se dialoga con un Admin
+o un Client. Se entra nell’ If dell’Admin riceve il menu nuovo da Admin e lo passa tramite
+una Pipe al padre dopo aver chiuso la Pipe in lettura.
+Se entro nell’ If del Client con la prima Read leggo la matricola dell’utente. Con la
+seguente Write mando al Client il menu del giorno e il costo. Con due Read ricevo ora e
+sede di ritiro da aggiungere al menu, al costo e alla matricola dell’ utente che compongono
+l’ordine. A questo punto cessa la connessione con il Client.
+Mi connetto al ServerS con quattro Read invio menu, sede, orario, e matricola dell’ ordine.
+Di risposta ricevo un ID dell ordine che inoltro con una Write al Client. A questo punto
+cessa la connessione con il Client e con il ServerS.
+Nel padre per prima cosa mi accerto che la connessione sia chiusa prima di fare altro.
+Chiudo la Pipe in scrittura e ricevo il menu inviato dal figlio per aggiornarlo.
+# Client
+Il codice del Client inizia con la creazione della Socket per la connessione con il ServerC.
+Dopo la Connect con una Write invio il root al server per farmi riconoscere in qualità di
+client. La prima Write invia la matricola dell’utente, seguono due Read per la ricezione del
+menu e del costo. All’interno di un While infinito si chiede all’utente se il menu è gradito,
+quindi si decide se effettuare l’ordine. Viene chiesto in che sede ritirare il pasto e l’orario di
+ritiro, e infine con due Write invio la sede e l’orario e riceve l’ ID dell’ ordine eseguito.
+A questo punto il Client deve connettersi con il ServerS, effettuando una Connect su una
+Socket in precedenza creata appositamente. Con una Read ricevo l’ID dell’ordine.
+L’ utente paga impostando e inviando una flag al ServerS, quando l’ordine è pronto il
+Client invia l’ID digitato dall’utente al ServerS , ricevo una flag impostata a 1 se l’ ID inviato
+è stat corretto, altrimenti impostata a 2.
+# Server Sedi
+Il server delle sedi permette la gestione di tre sedi separate, questo grazia alla scrittura da
+terminare del nome della sede, facendo così permette di scegliere fra tre sedi. Questo è
+stato realizzato con l’uso del argv, e un If che effettua il controllo sui comandi da terminale.
+Ogni sede compie le stesse operazioni:
+Eseguo una fork per consentire la concorrenza del server.
+Nel figlio accetto la connessione da parte del ServerC, legge con tre Read l’ordine
+composto da orario, matricola e menù. Genero un ID e lo invio con una Write al ServerC,
+subito dopo chiudo la connessione. Accetto la connessione da parte del Client, leggo la
+flag che indica il pagamento effettuato, effettuo una Sleep per il tempo di attesa in
+funzione dell’orario dell’ordine e invio la flag che indica lo stato pronto del pasto. Ricevo
+l’ID comunicato dal Client. Se l’ordine risulta pagato e l’ID inviato dal Client combacia con
+quello generato l’ordine viene considerato ritirato e viene inostrata l’informazione al Client.
+Nel padre mi accerto di chiudere le connessioni.
+##
+# Istruzioni per la compilazione
+##
+La compilazione viene effettuata da terminale, con l'apertura in simultanea di almeno tre terminali 
+nell'ordine di Server Centrale, Sede, Client (eventualmente tutte le sede richieste, eventualmente 
+l'admin se occorre). 
+I comandi sono:
+bash serverC.sh
+bash centrodirezionale.sh
+bash client.sh
+Eventualmente:
+bash saporicampani.sh
+bash viaacton.sh
+bash admin.sh
